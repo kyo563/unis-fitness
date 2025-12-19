@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>スクワット出席（モック）</title>
+  <meta name="description" content="スクワット出席アプリのフロントエンドモック" />
   <style>
     :root{
       --bg:#ffffff;
@@ -11,8 +12,6 @@
       --line:#e6e6e6;
       --text:#111;
       --muted:#666;
-      --ok:#111;
-      --ng:#f3f3f3;
       --shadow: 0 1px 2px rgba(0,0,0,.05);
       --r:16px;
     }
@@ -31,7 +30,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      overflow:hidden; /* 1画面に収める強制。見切れたら要調整です */
+      overflow:hidden;
     }
     .card{
       background:var(--card);
@@ -41,23 +40,11 @@
       padding: 12px;
       overflow:hidden;
     }
-    .top{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      flex: 0 0 auto;
-    }
-    .row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
+    .row{ display:flex; gap:10px; align-items:center; }
     .grow{ flex:1; }
-    h1{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.2px;
-    }
+    h1{ margin:0; font-size:14px; letter-spacing:.2px; }
+    .muted{ color:var(--muted); font-size:12px; }
+
     .pill{
       display:inline-flex;
       align-items:center;
@@ -69,7 +56,7 @@
       font-size:12px;
       white-space:nowrap;
     }
-    .muted{ color:var(--muted); font-size:12px; }
+
     select{
       width:100%;
       padding:10px 12px;
@@ -79,6 +66,7 @@
       font-size:16px;
       outline:none;
     }
+
     button{
       border:0;
       border-radius: 16px;
@@ -90,48 +78,28 @@
       -webkit-tap-highlight-color: transparent;
     }
     button:active{ transform: scale(.99); }
-    .btnPrimary{
-      background:#111;
-      color:#fff;
-      flex: 0 0 auto;
-    }
+
+    .btnPrimary{ background:#111; color:#fff; }
     .btnGhost{
-      background:#fff;
-      color:#111;
+      background:#fff; color:#111;
       border:1px solid var(--line);
-      font-size:14px;
-      font-weight:600;
+      font-size:14px; font-weight:600;
       padding: 10px 12px;
     }
 
-    /* 下部：カレンダー＋KPI */
     .main{
-      flex: 1 1 auto;
-      min-height: 0;
+      flex:1 1 auto;
+      min-height:0;
       display:flex;
       flex-direction:column;
       gap:10px;
     }
-    .mainHeader{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .kpis{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .kpiPill{ font-size:12px; }
 
     .calendarWrap{
       background:#fff;
       border:1px solid var(--line);
       border-radius: var(--r);
       padding:10px;
-      overflow:hidden;
     }
     .calendar{
       display:grid;
@@ -154,60 +122,31 @@
       justify-content:center;
       font-size:12px;
       background:#fff;
-      position:relative;
-      overflow:hidden;
-    }
-    .day.off{
-      background:#f6f6f6;
-      color:#bbb;
-    }
-    .day.done{
-      background:#111;
-      color:#fff;
-      border-color:#111;
-    }
-    .day.today{
-      outline:2px solid rgba(0,0,0,.25);
-      outline-offset:1px;
+      color:#bbb; /* スカスカ感 */
     }
 
     .bottomGrid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:10px;
-      min-height:0;
     }
     .miniCard{
       background:#fff;
       border:1px solid var(--line);
       border-radius: var(--r);
       padding:10px;
-      overflow:hidden;
     }
     .label{ font-size:12px; color:var(--muted); }
-    .value{
-      margin-top:4px;
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    .sub{
-      margin-top:4px;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.2;
-    }
+    .value{ margin-top:4px; font-size:18px; font-weight:800; }
 
     .msg{
       font-size:11px;
       color:var(--muted);
-      margin-top:2px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
 
-    /* 小さい端末向け：詰めます */
     @media (max-height: 740px){
       button{ padding: 12px 12px; font-size:17px; border-radius:14px; }
       .calendarWrap{ padding:8px; }
@@ -222,367 +161,72 @@
 <body>
   <div class="app">
     <!-- 上部：ユーザー呼び出し -->
-    <div class="card top">
+    <div class="card">
       <div class="row" style="justify-content:space-between;">
         <h1>スクワット出席（20回）</h1>
-        <span class="pill" id="statusPill">状態：読み込み中です</span>
+        <span class="pill">状態：未記帳（ダミー）</span>
       </div>
-
-      <div class="row">
+      <div class="row" style="margin-top:10px;">
         <div class="grow">
           <div class="muted" style="margin:0 0 6px;">ユーザー呼び出し</div>
-          <select id="userSelect"></select>
+          <select>
+            <option>korothethird（ダミー）</option>
+            <option>モデルユーザーA（ダミー）</option>
+          </select>
         </div>
         <div style="width:92px;">
           <div class="muted" style="margin:0 0 6px;">更新</div>
-          <button class="btnGhost" id="reloadBtn">更新</button>
+          <button class="btnGhost" type="button">更新</button>
         </div>
       </div>
     </div>
 
     <!-- 真ん中：大ボタン -->
-    <button class="btnPrimary" id="checkinBtn">スクワットやった（記帳）</button>
+    <button class="btnPrimary" type="button">スクワットやった（記帳）</button>
 
     <!-- 下部：カレンダー＋KPI -->
     <div class="card main">
-      <div class="mainHeader">
+      <div class="row" style="justify-content:space-between;">
         <div>
-          <div class="label" id="monthLabel">----</div>
-          <div class="value" id="monthTitle" style="font-size:16px;">今月の出席</div>
+          <div class="muted">2025-12（ダミー）</div>
+          <div class="value" style="font-size:16px;">今月の出席</div>
         </div>
-        <div class="kpis">
-          <span class="pill kpiPill" id="meKpi">自分：--回</span>
-          <span class="pill kpiPill" id="streakKpi">連続：--日</span>
-          <span class="pill kpiPill" id="todayKpi">今日：--</span>
+        <div class="row" style="gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+          <span class="pill">自分：--回</span>
+          <span class="pill">連続：--日</span>
+          <span class="pill">今日：--</span>
         </div>
       </div>
 
       <div class="calendarWrap">
-        <div class="calendar" id="calendar">
-          <!-- JSで描画します -->
+        <div class="calendar">
+          <div class="dow">日</div><div class="dow">月</div><div class="dow">火</div><div class="dow">水</div><div class="dow">木</div><div class="dow">金</div><div class="dow">土</div>
+          <!-- 形だけの42マス -->
+          <!-- 1〜42 を薄く表示して “カレンダーっぽさ”だけ出します -->
+          <div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div>
+          <div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div>
+          <div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div>
+          <div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div>
+          <div class="day">29</div><div class="day">30</div><div class="day">31</div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div>
+          <div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div>
         </div>
       </div>
 
       <div class="bottomGrid">
         <div class="miniCard">
           <div class="label">モデルユーザーA：今日の進捗</div>
-          <div class="value" id="modelAValue">--</div>
-          <div class="sub" id="modelASub">--</div>
+          <div class="value">--</div>
+          <div class="muted">--</div>
         </div>
         <div class="miniCard">
           <div class="label">全体の継続率</div>
-          <div class="value" id="retValue">--</div>
-          <div class="sub" id="retSub">--</div>
+          <div class="value">--</div>
+          <div class="muted">--</div>
         </div>
       </div>
 
-      <div class="msg" id="msg">モックです。実データ化したらここはログ表示にしますです</div>
+      <div class="msg">GitHub Pages用の形だけのindex.htmlです（JSなし）</div>
     </div>
   </div>
-
-<script>
-/* =========================
-   モックデータ
-   ========================= */
-const USERS = [
-  { id: "u1", name: "korothethird" },
-  { id: "u2", name: "モデルユーザーA" },
-  { id: "u3", name: "Bさん" },
-  { id: "u4", name: "Cさん" },
-];
-
-// doneDates: YYYY-MM-DD の配列（達成日）
-const DONE_BY_USER = {
-  u1: ["2025-12-01","2025-12-02","2025-12-04","2025-12-05","2025-12-07","2025-12-10","2025-12-14","2025-12-19"],
-  u2: ["2025-12-01","2025-12-03","2025-12-04","2025-12-06","2025-12-08","2025-12-12","2025-12-16"],
-  u3: ["2025-12-02","2025-12-05","2025-12-09"],
-  u4: ["2025-12-01","2025-12-02","2025-12-03","2025-12-04","2025-12-05","2025-12-06","2025-12-07","2025-12-08","2025-12-09","2025-12-10"],
-};
-
-// 今日の状態（時刻は表示用）
-const TODAY_TIME_BY_USER = {
-  u1: "22:41",
-  u2: "",
-  u3: "",
-  u4: "07:12",
-};
-
-/* =========================
-   便利関数（東京日付）
-   ========================= */
-function tzTodayYMD(){
-  // ブラウザの実時間を東京に変換して yyyy-mm-dd を作ります
-  const parts = new Intl.DateTimeFormat("ja-JP", {
-    timeZone: "Asia/Tokyo",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(new Date());
-  const y = parts.find(p=>p.type==="year").value;
-  const m = parts.find(p=>p.type==="month").value;
-  const d = parts.find(p=>p.type==="day").value;
-  return `${y}-${m}-${d}`;
-}
-
-function ymdToUTCDate(ymd){
-  // "YYYY-MM-DD" をUTC基準の Date にして日付計算を安定させます
-  const [y,m,d] = ymd.split("-").map(Number);
-  return new Date(Date.UTC(y, m-1, d));
-}
-
-function utcDateToYMD(dt){
-  const y = dt.getUTCFullYear();
-  const m = String(dt.getUTCMonth()+1).padStart(2,"0");
-  const d = String(dt.getUTCDate()).padStart(2,"0");
-  return `${y}-${m}-${d}`;
-}
-
-function monthKeyFromYMD(ymd){
-  return ymd.slice(0,7); // YYYY-MM
-}
-
-function uniq(arr){
-  return Array.from(new Set(arr));
-}
-
-function clamp(n, min, max){
-  return Math.max(min, Math.min(max, n));
-}
-
-/* =========================
-   UI参照
-   ========================= */
-const sel = document.getElementById("userSelect");
-const statusPill = document.getElementById("statusPill");
-const msg = document.getElementById("msg");
-const calendarEl = document.getElementById("calendar");
-const monthLabel = document.getElementById("monthLabel");
-const meKpi = document.getElementById("meKpi");
-const streakKpi = document.getElementById("streakKpi");
-const todayKpi = document.getElementById("todayKpi");
-const modelAValue = document.getElementById("modelAValue");
-const modelASub = document.getElementById("modelASub");
-const retValue = document.getElementById("retValue");
-const retSub = document.getElementById("retSub");
-
-const MODEL_A_ID = "u2";
-
-/* =========================
-   状態
-   ========================= */
-let TODAY = tzTodayYMD(); // 実機の当日を使います（Tokyo）
-let selectedUserId = "";
-
-/* =========================
-   初期化
-   ========================= */
-function init(){
-  buildSelect();
-  selectedUserId = loadLastUser() || USERS[0].id;
-  sel.value = selectedUserId;
-  refreshAll("起動しましたです");
-}
-
-function buildSelect(){
-  sel.innerHTML = "";
-  USERS.forEach(u=>{
-    const opt = document.createElement("option");
-    opt.value = u.id;
-    opt.textContent = u.name;
-    sel.appendChild(opt);
-  });
-}
-
-function saveLastUser(id){
-  try { localStorage.setItem("squat_mock_uid", id); } catch(e){}
-}
-function loadLastUser(){
-  try { return localStorage.getItem("squat_mock_uid") || ""; } catch(e){ return ""; }
-}
-
-/* =========================
-   描画
-   ========================= */
-function refreshAll(note){
-  TODAY = tzTodayYMD();
-  selectedUserId = sel.value || USERS[0].id;
-  saveLastUser(selectedUserId);
-
-  // 上部：今日の状態
-  const doneToday = isDone(selectedUserId, TODAY);
-  const t = TODAY_TIME_BY_USER[selectedUserId] || "";
-  statusPill.textContent = doneToday ? `状態：今日 記帳済み（${t || "時刻未設定"}）` : "状態：今日は未記帳です";
-
-  // KPI
-  const monthKey = monthKeyFromYMD(TODAY);
-  monthLabel.textContent = `${monthKey}（Asia/Tokyo）`;
-
-  const doneThisMonth = getDoneDates(selectedUserId).filter(d => d.startsWith(monthKey));
-  meKpi.textContent = `自分：${doneThisMonth.length}回`;
-
-  const streak = calcStreak(selectedUserId, TODAY);
-  streakKpi.textContent = `連続：${streak}日`;
-
-  todayKpi.textContent = `今日：${doneToday ? "達成" : "未達"}`;
-
-  // カレンダー
-  renderCalendar(monthKey, new Set(doneThisMonth), TODAY);
-
-  // モデルユーザーA
-  const aDone = isDone(MODEL_A_ID, TODAY);
-  const aTime = TODAY_TIME_BY_USER[MODEL_A_ID] || "";
-  modelAValue.textContent = aDone ? "達成です" : "未達です";
-  modelASub.textContent = aDone ? `記帳時刻：${aTime || "時刻未設定"}` : "今日はまだ押していません";
-
-  // 全体継続率（定義を2つ出します）
-  const metrics = calcRetentionMetrics(monthKey, TODAY);
-  retValue.textContent = `直近7日：${Math.round(metrics.active7dRate*100)}%`;
-  retSub.textContent = `今月平均：${Math.round(metrics.monthAvgRate*100)}%（延べ出席 / 延べ日数）`;
-
-  msg.textContent = note || "更新しましたです";
-}
-
-function renderCalendar(monthKey, doneSet, todayYmd){
-  // monthKey: "YYYY-MM"
-  const [y, m] = monthKey.split("-").map(Number);
-
-  // ヘッダ（曜日）
-  calendarEl.innerHTML = "";
-  const dows = ["日","月","火","水","木","金","土"];
-  dows.forEach(d=>{
-    const el = document.createElement("div");
-    el.className = "dow";
-    el.textContent = d;
-    calendarEl.appendChild(el);
-  });
-
-  // 6週固定（42マス）で高さを安定させます
-  const first = new Date(Date.UTC(y, m-1, 1));
-  const last = new Date(Date.UTC(y, m, 0));
-  const startDow = first.getUTCDay(); // 0=Sun
-  const totalDays = last.getUTCDate();
-  const cells = 42;
-
-  for(let i=0;i<cells;i++){
-    const dayNum = i - startDow + 1;
-    const cell = document.createElement("div");
-
-    if(dayNum < 1 || dayNum > totalDays){
-      cell.className = "day off";
-      cell.textContent = "";
-    }else{
-      const dateStr = `${y}-${String(m).padStart(2,"0")}-${String(dayNum).padStart(2,"0")}`;
-      cell.className = "day";
-      cell.textContent = String(dayNum);
-
-      if(doneSet.has(dateStr)) cell.classList.add("done");
-      if(dateStr === todayYmd) cell.classList.add("today");
-    }
-    calendarEl.appendChild(cell);
-  }
-}
-
-/* =========================
-   ロジック
-   ========================= */
-function getDoneDates(uid){
-  return DONE_BY_USER[uid] ? uniq(DONE_BY_USER[uid]) : [];
-}
-
-function isDone(uid, ymd){
-  return getDoneDates(uid).includes(ymd);
-}
-
-function toggleToday(uid){
-  const list = getDoneDates(uid);
-  const has = list.includes(TODAY);
-  const next = has ? list.filter(d => d !== TODAY) : list.concat([TODAY]);
-  DONE_BY_USER[uid] = uniq(next);
-
-  // 時刻（表示用）もそれっぽく
-  if (!has) {
-    TODAY_TIME_BY_USER[uid] = new Intl.DateTimeFormat("ja-JP", {
-      timeZone: "Asia/Tokyo",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
-    }).format(new Date());
-  } else {
-    TODAY_TIME_BY_USER[uid] = "";
-  }
-}
-
-function calcStreak(uid, todayYmd){
-  const done = new Set(getDoneDates(uid));
-  let streak = 0;
-
-  // 今日から遡って連続達成数を数えます
-  let d = ymdToUTCDate(todayYmd);
-  for(;;){
-    const key = utcDateToYMD(d);
-    if(done.has(key)){
-      streak++;
-      d.setUTCDate(d.getUTCDate() - 1);
-    }else{
-      break;
-    }
-    // 無限ループ対策（ありえませんが念のため）
-    if(streak > 3660) break;
-  }
-  return streak;
-}
-
-function calcRetentionMetrics(monthKey, todayYmd){
-  const totalUsers = USERS.length;
-
-  // 直近7日アクティブ率：今日含む7日で1回でも達成したユーザー割合
-  const today = ymdToUTCDate(todayYmd);
-  const start = new Date(today.getTime());
-  start.setUTCDate(start.getUTCDate() - 6); // 7日間（今日含む）
-  const startYmd = utcDateToYMD(start);
-
-  let active7d = 0;
-  USERS.forEach(u=>{
-    const done = getDoneDates(u.id);
-    const any = done.some(d => d >= startYmd && d <= todayYmd);
-    if(any) active7d++;
-  });
-  const active7dRate = totalUsers ? active7d / totalUsers : 0;
-
-  // 今月平均：延べ出席 / (ユーザー数 * 今月経過日数)
-  const [y, m] = monthKey.split("-").map(Number);
-  const monthStart = new Date(Date.UTC(y, m-1, 1));
-  const todayUTC = ymdToUTCDate(todayYmd);
-  const daysElapsed = clamp(
-    Math.floor((todayUTC - monthStart) / 86400000) + 1,
-    1,
-    31
-  );
-
-  let totalAttend = 0;
-  USERS.forEach(u=>{
-    totalAttend += getDoneDates(u.id).filter(d => d.startsWith(monthKey)).length;
-  });
-  const denom = totalUsers * daysElapsed;
-  const monthAvgRate = denom ? (totalAttend / denom) : 0;
-
-  return { active7dRate, monthAvgRate, active7d, totalUsers, totalAttend, daysElapsed };
-}
-
-/* =========================
-   イベント
-   ========================= */
-document.getElementById("reloadBtn").addEventListener("click", ()=> refreshAll("手動更新しましたです"));
-sel.addEventListener("change", ()=> refreshAll("ユーザーを切り替えましたです"));
-
-document.getElementById("checkinBtn").addEventListener("click", ()=>{
-  toggleToday(sel.value);
-  const doneToday = isDone(sel.value, TODAY);
-  refreshAll(doneToday ? "記帳しましたです（モック）" : "取り消しましたです（モック）");
-});
-
-// 起動
-init();
-</script>
 </body>
 </html>
