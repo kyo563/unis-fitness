@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=cp932">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    body {background-color: #fffeff}
+    p.p1 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Lucida Grande'; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Lucida Grande'; -webkit-text-stroke: #000000; min-height: 15.0px}
+    p.p3 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Hiragino Sans'; -webkit-text-stroke: #000000}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px 'Hiragino Sans'; font-kerning: none}
+    span.s3 {font: 12.0px 'Lucida Grande'; font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="ja"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;base target="_top" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>:root { --bg:#fff; --bd:#e5e5e5; --muted:#666; --card:#fafafa; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>body{ margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif; background:var(--bg); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.wrap{ height:100vh; padding:12px; box-sizing:border-box; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.card{ border:1px solid var(--bd); border-radius:14px; padding:12px; background:var(--card); box-shadow:0 1px 2px rgba(0,0,0,.04); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.row{ display:flex; gap:10px; align-items:center; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.col{ display:flex; flex-direction:column; gap:10px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.spacer{ height:10px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.title{ font-size:14px; margin:0; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.muted{ color:var(--muted); font-size:12px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>select,input{ width:100%; padding:10px 12px; font-size:16px; border-radius:12px; border:1px solid var(--bd); background:#fff; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>button{ width:100%; padding:14px 12px; font-size:18px; border-radius:14px; border:0; cursor:pointer; background:#111; color:#fff; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>button:active{ transform:scale(.99); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--bd); background:#fff; font-size:12px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.kpi{ display:flex; flex-direction:column; gap:4px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.kpi .v{ font-size:18px; font-weight:700; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.kpi .l{ font-size:12px; color:var(--muted); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.calendar{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; user-select:none; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.dow{ font-size:11px; color:var(--muted); text-align:center; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>aspect-ratio:1/1; border-radius:10px; border:1px solid var(--bd);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>display:flex; align-items:center; justify-content:center; font-size:12px; background:#fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>position:relative; overflow:hidden;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day.off{ background:#f5f5f5; color:#aaa; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day.done{ background:#111; color:#fff; border-color:#111; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day.today{ outline:2px solid rgba(0,0,0,.25); outline-offset:1px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.footerNote{ font-size:11px; color:var(--muted); margin-top:8px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;div class="wrap col"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�@</span><span class="s1"> </span><span class="s2">���[�U�[�Ăяo��</span><span class="s1"> + </span><span class="s2">�����̏��</span><span class="s1"> --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;div class="card col"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="row" style="justify-content:space-between;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;h1 class="title" style="margin:0;"&gt;</span><span class="s2">�X�N���b�g�o�ȁi</span><span class="s1">20</span><span class="s2">��j</span><span class="s1">&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;span class="pill" id="todayStatusPill"&gt;</span><span class="s2">��ԁF�ǂݍ��ݒ��ł�</span><span class="s1">&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div style="flex:1;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="muted" style="margin-bottom:6px;"&gt;</span><span class="s2">���[�U�[�Ăяo��</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;select id="userSelect"&gt;&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div style="width:96px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="muted" style="margin-bottom:6px;"&gt;</span><span class="s2">�X�V</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;button id="reloadBtn" style="padding:10px; font-size:14px;"&gt;</span><span class="s2">�X�V</span><span class="s1">&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�A</span><span class="s1"> </span><span class="s2">�o�ȃ{�^��</span><span class="s1"> --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;button id="checkinBtn"&gt;</span><span class="s2">�X�N���b�g������i�L���j</span><span class="s1">&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�B</span><span class="s1"> </span><span class="s2">�J�����_�[</span><span class="s1"> + </span><span class="s2">�C</span><span class="s1">/</span><span class="s2">�D</span><span class="s1"> </span><span class="s2">��</span><span class="s1">1</span><span class="s2">��ʂɎ��߂邽��</span><span class="s1">2</span><span class="s2">�i�\��</span><span class="s1"> --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;div class="card col" style="flex:1; overflow:hidden;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="row" style="justify-content:space-between;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="kpi"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="v" id="monthLabel"&gt;2025-12&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l"&gt;</span><span class="s2">�����̏o�ȃJ�����_�[</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="row" style="gap:6px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;span class="pill" id="meKpi"&gt;</span><span class="s2">�����F</span><span class="s1">--/--&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;span class="pill" id="streakKpi"&gt;</span><span class="s2">�A���F</span><span class="s1">--</span><span class="s2">��</span><span class="s1">&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�J�����_�[</span><span class="s1"> --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="calendar" style="margin-top:8px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">�y</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;!-- JS</span><span class="s2">��</span><span class="s1"> day </span><span class="s2">��}��</span><span class="s1"> --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="grid2" style="margin-top:10px;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�C</span><span class="s1"> </span><span class="s2">���f�����[�U�[</span><span class="s1">A --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="card" style="background:#fff;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="kpi"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l"&gt;</span><span class="s2">���f�����[�U�[</span><span class="s1">A</span><span class="s2">�F�����̐i��</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="v" id="modelAStatus"&gt;--&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l" id="modelADetail"&gt;--&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�D</span><span class="s1"> </span><span class="s2">�S�̂̌p����</span><span class="s1"> --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="card" style="background:#fff;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="kpi"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l"&gt;</span><span class="s2">�S�̂̌p����</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="v" id="retentionMain"&gt;--&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l" id="retentionSub"&gt;--&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="footerNote" id="msg"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// ====== </span><span class="s2">���f�[�^�i������</span><span class="s1"> google.script.run </span><span class="s2">�̌��ʂɒu�������܂��j</span><span class="s1"> ======</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockUsers = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>{id:"u1", name:"korothethird"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>{id:"u2", name:"</span><span class="s2">���f�����[�U�[</span><span class="s1">A"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>{id:"u3", name:"B</span><span class="s2">����</span><span class="s1">"}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s2">�B�����i�����j</span><span class="s1">: YYYY-MM-DD </span><span class="s2">�̔z��ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockDoneDatesByUser = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u1: ["2025-12-01","2025-12-02","2025-12-04","2025-12-05","2025-12-19"],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u2: ["2025-12-01","2025-12-03","2025-12-04","2025-12-06","2025-12-19"],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u3: ["2025-12-02","2025-12-05"]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s2">�����̏�Ԃł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockToday = "2025-12-19";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockTodayStatus = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u1: {done:true,<span class="Apple-converted-space">&nbsp; </span>time:"22:41"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u2: {done:false, time:""},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u3: {done:false, time:""}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s1">�p�����̗�i��`�͔C�ӂł����A�Œ�</span><span class="s3">2</span><span class="s1">��ޏo���Ɲ��߂܂���j�ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockRetention = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>active7dRate: 0.58, // </span><span class="s2">����</span><span class="s1">7</span><span class="s2">����</span><span class="s1">1</span><span class="s2">��ȏ�L���������[�U�[�����ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>avgMonthlyRate: 0.42 // </span><span class="s2">�����̕��Ϗo�ȗ��i���׏o��</span><span class="s1">/</span><span class="s2">���ד����j�݂����Ȓl�ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// ====== </span><span class="s2">���f�[�^�I���</span><span class="s1"> ======</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const sel = document.getElementById("userSelect");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const msg = document.getElementById("msg");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const calendarEl = document.querySelector(".calendar");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const todayPill = document.getElementById("todayStatusPill");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function setMsg(t){ msg.textContent = t; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function ymd(d){ return d.toISOString().slice(0,10); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function buildUserSelect(users){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>sel.innerHTML = "";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>users.forEach(u=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>const opt = document.createElement("option");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>opt.value = u.id;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>opt.textContent = u.name;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>sel.appendChild(opt);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const last = localStorage.getItem("squat_uid") || users[0]?.id || "";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (last) sel.value = last;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>localStorage.setItem("squat_uid", sel.value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function renderCalendar(year, month, doneSet, todayStr){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// calendarEl </span><span class="s2">��</span><span class="s1"> day</span><span class="s2">�i�擪</span><span class="s1">7</span><span class="s2">����</span><span class="s1">dow</span><span class="s2">�͎c���j����蒼���܂��ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>while (calendarEl.children.length &gt; 7) calendarEl.removeChild(calendarEl.lastChild);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const first = new Date(year, month-1, 1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const last = new Date(year, month, 0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const startDow = first.getDay(); // 0=Sun</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const totalDays = last.getDate();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// 6</span><span class="s1">�T�ԌŒ�i</span><span class="s3">42</span><span class="s1">�}�X�j�ɂ���ƃ��C�A�E�g������܂���ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const cells = 42;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>for (let i = 0; i &lt; cells; i++){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>const cell = document.createElement("div");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>cell.className = "day off";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>const dayNum = i - startDow + 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>if (dayNum &gt;= 1 &amp;&amp; dayNum &lt;= totalDays){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>const dateStr = `${year}-${String(month).padStart(2,"0")}-${String(dayNum).padStart(2,"0")}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>cell.textContent = dayNum;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>cell.className = "day";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>if (doneSet.has(dateStr)) cell.classList.add("done");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>if (dateStr === todayStr) cell.classList.add("today");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>cell.textContent = "";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>calendarEl.appendChild(cell);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function refreshAll(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const uid = sel.value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>localStorage.setItem("squat_uid", uid);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const now = new Date(mockToday + "T00:00:00");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const year = now.getFullYear();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const month = now.getMonth() + 1;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("monthLabel").textContent = `${year}-${String(month).padStart(2,"0")}`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">�����̏�Ԃł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const st = mockTodayStatus[uid] || {done:false, time:""};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>todayPill.textContent = st.done ? `</span><span class="s2">��ԁF����</span><span class="s1"> </span><span class="s2">�L���ς݁i</span><span class="s1">${st.time}</span><span class="s2">�j</span><span class="s1">` : "</span><span class="s2">��ԁF�����͖��L���ł�</span><span class="s1">";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">�����̍���</span><span class="s1">KPI</span><span class="s2">�ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const doneDates = (mockDoneDatesByUser[uid] || []).filter(x =&gt; x.startsWith(`${year}-${String(month).padStart(2,"0")}`));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("meKpi").textContent = `</span><span class="s2">�����F</span><span class="s1">${doneDates.length}</span><span class="s2">��</span><span class="s1">`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("streakKpi").textContent = `</span><span class="s2">�A���F</span><span class="s1">--</span><span class="s2">��</span><span class="s1">`; // </span><span class="s2">�X�g���[�N�͌�ŃT�[�o�v�Z���ȒP�ł�</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">�J�����_�[�`��ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>renderCalendar(year, month, new Set(doneDates), mockToday);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s1">���f�����[�U�[</span><span class="s3">A</span><span class="s1">�̍����̐i���ł��i���O�ň������</span><span class="s3"> userId </span><span class="s1">���Œ肵���������S�ł��j</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const modelAId = "u2";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const modelSt = mockTodayStatus[modelAId] || {done:false, time:""};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("modelAStatus").textContent = modelSt.done ? "</span><span class="s2">�B���ł�</span><span class="s1">" : "</span><span class="s2">���B�ł�</span><span class="s1">";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("modelADetail").textContent = modelSt.done ? `</span><span class="s2">�L�������F</span><span class="s1">${modelSt.time}` : "</span><span class="s2">�����͂܂������Ă��܂���</span><span class="s1">";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s1">�S�̂̌p�����ł��i</span><span class="s3">2</span><span class="s1">�w�W�o���̂�����ł��j</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("retentionMain").textContent = `</span><span class="s2">����</span><span class="s1">7</span><span class="s2">���F</span><span class="s1">${Math.round(mockRetention.active7dRate*100)}%`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("retentionSub").textContent<span class="Apple-converted-space">&nbsp; </span>= `</span><span class="s2">�������ρF</span><span class="s1">${Math.round(mockRetention.avgMonthlyRate*100)}%`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>setMsg("</span><span class="s2">�\���X�V���܂����ł�</span><span class="s1">");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>document.getElementById("reloadBtn").addEventListener("click", refreshAll);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>sel.addEventListener("change", refreshAll);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>document.getElementById("checkinBtn").addEventListener("click", ()=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">������</span><span class="s1"> google.script.run.checkin(uid,20) </span><span class="s2">�ɒu�������܂��ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const uid = sel.value;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (!uid) return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>mockTodayStatus[uid] = {done:true, time:"23:10"};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (!mockDoneDatesByUser[uid]) mockDoneDatesByUser[uid] = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (!mockDoneDatesByUser[uid].includes(mockToday)) mockDoneDatesByUser[uid].push(mockToday);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>refreshAll();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>setMsg("</span><span class="s2">�L�����܂����i���b�N�j�ł�</span><span class="s1">");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s2">�������ł�</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>buildUserSelect(mockUsers);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>refreshAll();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
