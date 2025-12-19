@@ -1,257 +1,588 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=cp932">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    body {background-color: #fffeff}
-    p.p1 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Lucida Grande'; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Lucida Grande'; -webkit-text-stroke: #000000; min-height: 15.0px}
-    p.p3 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px 'Hiragino Sans'; -webkit-text-stroke: #000000}
-    span.s1 {font-kerning: none}
-    span.s2 {font: 12.0px 'Hiragino Sans'; font-kerning: none}
-    span.s3 {font: 12.0px 'Lucida Grande'; font-kerning: none}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>スクワット出席（モック）</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card:#fafafa;
+      --line:#e6e6e6;
+      --text:#111;
+      --muted:#666;
+      --ok:#111;
+      --ng:#f3f3f3;
+      --shadow: 0 1px 2px rgba(0,0,0,.05);
+      --r:16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .app{
+      height:100vh;
+      padding: 12px;
+      padding-top: calc(12px + env(safe-area-inset-top));
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      overflow:hidden; /* 1画面に収める強制。見切れたら要調整です */
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      overflow:hidden;
+    }
+    .top{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex: 0 0 auto;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .grow{ flex:1; }
+    h1{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .muted{ color:var(--muted); font-size:12px; }
+    select{
+      width:100%;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      outline:none;
+    }
+    button{
+      border:0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:active{ transform: scale(.99); }
+    .btnPrimary{
+      background:#111;
+      color:#fff;
+      flex: 0 0 auto;
+    }
+    .btnGhost{
+      background:#fff;
+      color:#111;
+      border:1px solid var(--line);
+      font-size:14px;
+      font-weight:600;
+      padding: 10px 12px;
+    }
+
+    /* 下部：カレンダー＋KPI */
+    .main{
+      flex: 1 1 auto;
+      min-height: 0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .mainHeader{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .kpis{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .kpiPill{ font-size:12px; }
+
+    .calendarWrap{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      padding:10px;
+      overflow:hidden;
+    }
+    .calendar{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:6px;
+      user-select:none;
+    }
+    .dow{
+      font-size:11px;
+      color:var(--muted);
+      text-align:center;
+      padding: 2px 0;
+    }
+    .day{
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      background:#fff;
+      position:relative;
+      overflow:hidden;
+    }
+    .day.off{
+      background:#f6f6f6;
+      color:#bbb;
+    }
+    .day.done{
+      background:#111;
+      color:#fff;
+      border-color:#111;
+    }
+    .day.today{
+      outline:2px solid rgba(0,0,0,.25);
+      outline-offset:1px;
+    }
+
+    .bottomGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      min-height:0;
+    }
+    .miniCard{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      padding:10px;
+      overflow:hidden;
+    }
+    .label{ font-size:12px; color:var(--muted); }
+    .value{
+      margin-top:4px;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.2;
+    }
+
+    .msg{
+      font-size:11px;
+      color:var(--muted);
+      margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    /* 小さい端末向け：詰めます */
+    @media (max-height: 740px){
+      button{ padding: 12px 12px; font-size:17px; border-radius:14px; }
+      .calendarWrap{ padding:8px; }
+      .calendar{ gap:5px; }
+      .day{ border-radius:10px; font-size:11px; }
+      .bottomGrid{ gap:8px; }
+      .miniCard{ padding:8px; }
+      .value{ font-size:16px; }
+    }
   </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="ja"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;base target="_top" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>:root { --bg:#fff; --bd:#e5e5e5; --muted:#666; --card:#fafafa; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>body{ margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif; background:var(--bg); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.wrap{ height:100vh; padding:12px; box-sizing:border-box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.card{ border:1px solid var(--bd); border-radius:14px; padding:12px; background:var(--card); box-shadow:0 1px 2px rgba(0,0,0,.04); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.row{ display:flex; gap:10px; align-items:center; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.col{ display:flex; flex-direction:column; gap:10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.spacer{ height:10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.title{ font-size:14px; margin:0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.muted{ color:var(--muted); font-size:12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>select,input{ width:100%; padding:10px 12px; font-size:16px; border-radius:12px; border:1px solid var(--bd); background:#fff; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>button{ width:100%; padding:14px 12px; font-size:18px; border-radius:14px; border:0; cursor:pointer; background:#111; color:#fff; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>button:active{ transform:scale(.99); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--bd); background:#fff; font-size:12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.kpi{ display:flex; flex-direction:column; gap:4px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.kpi .v{ font-size:18px; font-weight:700; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.kpi .l{ font-size:12px; color:var(--muted); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.calendar{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; user-select:none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.dow{ font-size:11px; color:var(--muted); text-align:center; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>aspect-ratio:1/1; border-radius:10px; border:1px solid var(--bd);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>display:flex; align-items:center; justify-content:center; font-size:12px; background:#fff;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>position:relative; overflow:hidden;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day.off{ background:#f5f5f5; color:#aaa; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day.done{ background:#111; color:#fff; border-color:#111; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.day.today{ outline:2px solid rgba(0,0,0,.25); outline-offset:1px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>.footerNote{ font-size:11px; color:var(--muted); margin-top:8px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;div class="wrap col"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�@</span><span class="s1"> </span><span class="s2">���[�U�[�Ăяo��</span><span class="s1"> + </span><span class="s2">�����̏��</span><span class="s1"> --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;div class="card col"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="row" style="justify-content:space-between;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;h1 class="title" style="margin:0;"&gt;</span><span class="s2">�X�N���b�g�o�ȁi</span><span class="s1">20</span><span class="s2">��j</span><span class="s1">&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;span class="pill" id="todayStatusPill"&gt;</span><span class="s2">��ԁF�ǂݍ��ݒ��ł�</span><span class="s1">&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div style="flex:1;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="muted" style="margin-bottom:6px;"&gt;</span><span class="s2">���[�U�[�Ăяo��</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;select id="userSelect"&gt;&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div style="width:96px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="muted" style="margin-bottom:6px;"&gt;</span><span class="s2">�X�V</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;button id="reloadBtn" style="padding:10px; font-size:14px;"&gt;</span><span class="s2">�X�V</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�A</span><span class="s1"> </span><span class="s2">�o�ȃ{�^��</span><span class="s1"> --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;button id="checkinBtn"&gt;</span><span class="s2">�X�N���b�g������i�L���j</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�B</span><span class="s1"> </span><span class="s2">�J�����_�[</span><span class="s1"> + </span><span class="s2">�C</span><span class="s1">/</span><span class="s2">�D</span><span class="s1"> </span><span class="s2">��</span><span class="s1">1</span><span class="s2">��ʂɎ��߂邽��</span><span class="s1">2</span><span class="s2">�i�\��</span><span class="s1"> --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;div class="card col" style="flex:1; overflow:hidden;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="row" style="justify-content:space-between;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="kpi"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="v" id="monthLabel"&gt;2025-12&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l"&gt;</span><span class="s2">�����̏o�ȃJ�����_�[</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="row" style="gap:6px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;span class="pill" id="meKpi"&gt;</span><span class="s2">�����F</span><span class="s1">--/--&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;span class="pill" id="streakKpi"&gt;</span><span class="s2">�A���F</span><span class="s1">--</span><span class="s2">��</span><span class="s1">&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�J�����_�[</span><span class="s1"> --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="calendar" style="margin-top:8px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">��</span><span class="s1">&lt;/div&gt;&lt;div class="dow"&gt;</span><span class="s2">�y</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;!-- JS</span><span class="s2">��</span><span class="s1"> day </span><span class="s2">��}��</span><span class="s1"> --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="grid2" style="margin-top:10px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�C</span><span class="s1"> </span><span class="s2">���f�����[�U�[</span><span class="s1">A --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="card" style="background:#fff;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="kpi"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l"&gt;</span><span class="s2">���f�����[�U�[</span><span class="s1">A</span><span class="s2">�F�����̐i��</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="v" id="modelAStatus"&gt;--&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l" id="modelADetail"&gt;--&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;!-- </span><span class="s2">�D</span><span class="s1"> </span><span class="s2">�S�̂̌p����</span><span class="s1"> --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="card" style="background:#fff;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="kpi"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l"&gt;</span><span class="s2">�S�̂̌p����</span><span class="s1">&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="v" id="retentionMain"&gt;--&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;div class="l" id="retentionSub"&gt;--&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>&lt;div class="footerNote" id="msg"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// ====== </span><span class="s2">���f�[�^�i������</span><span class="s1"> google.script.run </span><span class="s2">�̌��ʂɒu�������܂��j</span><span class="s1"> ======</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockUsers = [</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>{id:"u1", name:"korothethird"},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>{id:"u2", name:"</span><span class="s2">���f�����[�U�[</span><span class="s1">A"},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>{id:"u3", name:"B</span><span class="s2">����</span><span class="s1">"}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s2">�B�����i�����j</span><span class="s1">: YYYY-MM-DD </span><span class="s2">�̔z��ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockDoneDatesByUser = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u1: ["2025-12-01","2025-12-02","2025-12-04","2025-12-05","2025-12-19"],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u2: ["2025-12-01","2025-12-03","2025-12-04","2025-12-06","2025-12-19"],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u3: ["2025-12-02","2025-12-05"]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s2">�����̏�Ԃł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockToday = "2025-12-19";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockTodayStatus = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u1: {done:true,<span class="Apple-converted-space">&nbsp; </span>time:"22:41"},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u2: {done:false, time:""},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>u3: {done:false, time:""}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s1">�p�����̗�i��`�͔C�ӂł����A�Œ�</span><span class="s3">2</span><span class="s1">��ޏo���Ɲ��߂܂���j�ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const mockRetention = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>active7dRate: 0.58, // </span><span class="s2">����</span><span class="s1">7</span><span class="s2">����</span><span class="s1">1</span><span class="s2">��ȏ�L���������[�U�[�����ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>avgMonthlyRate: 0.42 // </span><span class="s2">�����̕��Ϗo�ȗ��i���׏o��</span><span class="s1">/</span><span class="s2">���ד����j�݂����Ȓl�ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// ====== </span><span class="s2">���f�[�^�I���</span><span class="s1"> ======</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const sel = document.getElementById("userSelect");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const msg = document.getElementById("msg");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const calendarEl = document.querySelector(".calendar");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>const todayPill = document.getElementById("todayStatusPill");</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function setMsg(t){ msg.textContent = t; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function ymd(d){ return d.toISOString().slice(0,10); }</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function buildUserSelect(users){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>sel.innerHTML = "";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>users.forEach(u=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>const opt = document.createElement("option");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>opt.value = u.id;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>opt.textContent = u.name;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>sel.appendChild(opt);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const last = localStorage.getItem("squat_uid") || users[0]?.id || "";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (last) sel.value = last;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>localStorage.setItem("squat_uid", sel.value);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function renderCalendar(year, month, doneSet, todayStr){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// calendarEl </span><span class="s2">��</span><span class="s1"> day</span><span class="s2">�i�擪</span><span class="s1">7</span><span class="s2">����</span><span class="s1">dow</span><span class="s2">�͎c���j����蒼���܂��ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>while (calendarEl.children.length &gt; 7) calendarEl.removeChild(calendarEl.lastChild);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const first = new Date(year, month-1, 1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const last = new Date(year, month, 0);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const startDow = first.getDay(); // 0=Sun</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const totalDays = last.getDate();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// 6</span><span class="s1">�T�ԌŒ�i</span><span class="s3">42</span><span class="s1">�}�X�j�ɂ���ƃ��C�A�E�g������܂���ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const cells = 42;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>for (let i = 0; i &lt; cells; i++){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>const cell = document.createElement("div");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>cell.className = "day off";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>const dayNum = i - startDow + 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>if (dayNum &gt;= 1 &amp;&amp; dayNum &lt;= totalDays){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>const dateStr = `${year}-${String(month).padStart(2,"0")}-${String(dayNum).padStart(2,"0")}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>cell.textContent = dayNum;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>cell.className = "day";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>if (doneSet.has(dateStr)) cell.classList.add("done");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>if (dateStr === todayStr) cell.classList.add("today");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>cell.textContent = "";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; </span>calendarEl.appendChild(cell);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>function refreshAll(){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const uid = sel.value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>localStorage.setItem("squat_uid", uid);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const now = new Date(mockToday + "T00:00:00");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const year = now.getFullYear();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const month = now.getMonth() + 1;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("monthLabel").textContent = `${year}-${String(month).padStart(2,"0")}`;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">�����̏�Ԃł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const st = mockTodayStatus[uid] || {done:false, time:""};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>todayPill.textContent = st.done ? `</span><span class="s2">��ԁF����</span><span class="s1"> </span><span class="s2">�L���ς݁i</span><span class="s1">${st.time}</span><span class="s2">�j</span><span class="s1">` : "</span><span class="s2">��ԁF�����͖��L���ł�</span><span class="s1">";</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">�����̍���</span><span class="s1">KPI</span><span class="s2">�ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const doneDates = (mockDoneDatesByUser[uid] || []).filter(x =&gt; x.startsWith(`${year}-${String(month).padStart(2,"0")}`));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("meKpi").textContent = `</span><span class="s2">�����F</span><span class="s1">${doneDates.length}</span><span class="s2">��</span><span class="s1">`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("streakKpi").textContent = `</span><span class="s2">�A���F</span><span class="s1">--</span><span class="s2">��</span><span class="s1">`; // </span><span class="s2">�X�g���[�N�͌�ŃT�[�o�v�Z���ȒP�ł�</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">�J�����_�[�`��ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>renderCalendar(year, month, new Set(doneDates), mockToday);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s1">���f�����[�U�[</span><span class="s3">A</span><span class="s1">�̍����̐i���ł��i���O�ň������</span><span class="s3"> userId </span><span class="s1">���Œ肵���������S�ł��j</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const modelAId = "u2";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const modelSt = mockTodayStatus[modelAId] || {done:false, time:""};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("modelAStatus").textContent = modelSt.done ? "</span><span class="s2">�B���ł�</span><span class="s1">" : "</span><span class="s2">���B�ł�</span><span class="s1">";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("modelADetail").textContent = modelSt.done ? `</span><span class="s2">�L�������F</span><span class="s1">${modelSt.time}` : "</span><span class="s2">�����͂܂������Ă��܂���</span><span class="s1">";</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p3"><span class="s3"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s1">�S�̂̌p�����ł��i</span><span class="s3">2</span><span class="s1">�w�W�o���̂�����ł��j</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("retentionMain").textContent = `</span><span class="s2">����</span><span class="s1">7</span><span class="s2">���F</span><span class="s1">${Math.round(mockRetention.active7dRate*100)}%`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>document.getElementById("retentionSub").textContent<span class="Apple-converted-space">&nbsp; </span>= `</span><span class="s2">�������ρF</span><span class="s1">${Math.round(mockRetention.avgMonthlyRate*100)}%`;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>setMsg("</span><span class="s2">�\���X�V���܂����ł�</span><span class="s1">");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>document.getElementById("reloadBtn").addEventListener("click", refreshAll);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>sel.addEventListener("change", refreshAll);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>document.getElementById("checkinBtn").addEventListener("click", ()=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>// </span><span class="s2">������</span><span class="s1"> google.script.run.checkin(uid,20) </span><span class="s2">�ɒu�������܂��ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>const uid = sel.value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (!uid) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>mockTodayStatus[uid] = {done:true, time:"23:10"};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (!mockDoneDatesByUser[uid]) mockDoneDatesByUser[uid] = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>if (!mockDoneDatesByUser[uid].includes(mockToday)) mockDoneDatesByUser[uid].push(mockToday);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>refreshAll();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; &nbsp; </span>setMsg("</span><span class="s2">�L�����܂����i���b�N�j�ł�</span><span class="s1">");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>// </span><span class="s2">�������ł�</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>buildUserSelect(mockUsers);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>refreshAll();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+  <div class="app">
+    <!-- 上部：ユーザー呼び出し -->
+    <div class="card top">
+      <div class="row" style="justify-content:space-between;">
+        <h1>スクワット出席（20回）</h1>
+        <span class="pill" id="statusPill">状態：読み込み中です</span>
+      </div>
+
+      <div class="row">
+        <div class="grow">
+          <div class="muted" style="margin:0 0 6px;">ユーザー呼び出し</div>
+          <select id="userSelect"></select>
+        </div>
+        <div style="width:92px;">
+          <div class="muted" style="margin:0 0 6px;">更新</div>
+          <button class="btnGhost" id="reloadBtn">更新</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 真ん中：大ボタン -->
+    <button class="btnPrimary" id="checkinBtn">スクワットやった（記帳）</button>
+
+    <!-- 下部：カレンダー＋KPI -->
+    <div class="card main">
+      <div class="mainHeader">
+        <div>
+          <div class="label" id="monthLabel">----</div>
+          <div class="value" id="monthTitle" style="font-size:16px;">今月の出席</div>
+        </div>
+        <div class="kpis">
+          <span class="pill kpiPill" id="meKpi">自分：--回</span>
+          <span class="pill kpiPill" id="streakKpi">連続：--日</span>
+          <span class="pill kpiPill" id="todayKpi">今日：--</span>
+        </div>
+      </div>
+
+      <div class="calendarWrap">
+        <div class="calendar" id="calendar">
+          <!-- JSで描画します -->
+        </div>
+      </div>
+
+      <div class="bottomGrid">
+        <div class="miniCard">
+          <div class="label">モデルユーザーA：今日の進捗</div>
+          <div class="value" id="modelAValue">--</div>
+          <div class="sub" id="modelASub">--</div>
+        </div>
+        <div class="miniCard">
+          <div class="label">全体の継続率</div>
+          <div class="value" id="retValue">--</div>
+          <div class="sub" id="retSub">--</div>
+        </div>
+      </div>
+
+      <div class="msg" id="msg">モックです。実データ化したらここはログ表示にしますです</div>
+    </div>
+  </div>
+
+<script>
+/* =========================
+   モックデータ
+   ========================= */
+const USERS = [
+  { id: "u1", name: "korothethird" },
+  { id: "u2", name: "モデルユーザーA" },
+  { id: "u3", name: "Bさん" },
+  { id: "u4", name: "Cさん" },
+];
+
+// doneDates: YYYY-MM-DD の配列（達成日）
+const DONE_BY_USER = {
+  u1: ["2025-12-01","2025-12-02","2025-12-04","2025-12-05","2025-12-07","2025-12-10","2025-12-14","2025-12-19"],
+  u2: ["2025-12-01","2025-12-03","2025-12-04","2025-12-06","2025-12-08","2025-12-12","2025-12-16"],
+  u3: ["2025-12-02","2025-12-05","2025-12-09"],
+  u4: ["2025-12-01","2025-12-02","2025-12-03","2025-12-04","2025-12-05","2025-12-06","2025-12-07","2025-12-08","2025-12-09","2025-12-10"],
+};
+
+// 今日の状態（時刻は表示用）
+const TODAY_TIME_BY_USER = {
+  u1: "22:41",
+  u2: "",
+  u3: "",
+  u4: "07:12",
+};
+
+/* =========================
+   便利関数（東京日付）
+   ========================= */
+function tzTodayYMD(){
+  // ブラウザの実時間を東京に変換して yyyy-mm-dd を作ります
+  const parts = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const y = parts.find(p=>p.type==="year").value;
+  const m = parts.find(p=>p.type==="month").value;
+  const d = parts.find(p=>p.type==="day").value;
+  return `${y}-${m}-${d}`;
+}
+
+function ymdToUTCDate(ymd){
+  // "YYYY-MM-DD" をUTC基準の Date にして日付計算を安定させます
+  const [y,m,d] = ymd.split("-").map(Number);
+  return new Date(Date.UTC(y, m-1, d));
+}
+
+function utcDateToYMD(dt){
+  const y = dt.getUTCFullYear();
+  const m = String(dt.getUTCMonth()+1).padStart(2,"0");
+  const d = String(dt.getUTCDate()).padStart(2,"0");
+  return `${y}-${m}-${d}`;
+}
+
+function monthKeyFromYMD(ymd){
+  return ymd.slice(0,7); // YYYY-MM
+}
+
+function uniq(arr){
+  return Array.from(new Set(arr));
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+/* =========================
+   UI参照
+   ========================= */
+const sel = document.getElementById("userSelect");
+const statusPill = document.getElementById("statusPill");
+const msg = document.getElementById("msg");
+const calendarEl = document.getElementById("calendar");
+const monthLabel = document.getElementById("monthLabel");
+const meKpi = document.getElementById("meKpi");
+const streakKpi = document.getElementById("streakKpi");
+const todayKpi = document.getElementById("todayKpi");
+const modelAValue = document.getElementById("modelAValue");
+const modelASub = document.getElementById("modelASub");
+const retValue = document.getElementById("retValue");
+const retSub = document.getElementById("retSub");
+
+const MODEL_A_ID = "u2";
+
+/* =========================
+   状態
+   ========================= */
+let TODAY = tzTodayYMD(); // 実機の当日を使います（Tokyo）
+let selectedUserId = "";
+
+/* =========================
+   初期化
+   ========================= */
+function init(){
+  buildSelect();
+  selectedUserId = loadLastUser() || USERS[0].id;
+  sel.value = selectedUserId;
+  refreshAll("起動しましたです");
+}
+
+function buildSelect(){
+  sel.innerHTML = "";
+  USERS.forEach(u=>{
+    const opt = document.createElement("option");
+    opt.value = u.id;
+    opt.textContent = u.name;
+    sel.appendChild(opt);
+  });
+}
+
+function saveLastUser(id){
+  try { localStorage.setItem("squat_mock_uid", id); } catch(e){}
+}
+function loadLastUser(){
+  try { return localStorage.getItem("squat_mock_uid") || ""; } catch(e){ return ""; }
+}
+
+/* =========================
+   描画
+   ========================= */
+function refreshAll(note){
+  TODAY = tzTodayYMD();
+  selectedUserId = sel.value || USERS[0].id;
+  saveLastUser(selectedUserId);
+
+  // 上部：今日の状態
+  const doneToday = isDone(selectedUserId, TODAY);
+  const t = TODAY_TIME_BY_USER[selectedUserId] || "";
+  statusPill.textContent = doneToday ? `状態：今日 記帳済み（${t || "時刻未設定"}）` : "状態：今日は未記帳です";
+
+  // KPI
+  const monthKey = monthKeyFromYMD(TODAY);
+  monthLabel.textContent = `${monthKey}（Asia/Tokyo）`;
+
+  const doneThisMonth = getDoneDates(selectedUserId).filter(d => d.startsWith(monthKey));
+  meKpi.textContent = `自分：${doneThisMonth.length}回`;
+
+  const streak = calcStreak(selectedUserId, TODAY);
+  streakKpi.textContent = `連続：${streak}日`;
+
+  todayKpi.textContent = `今日：${doneToday ? "達成" : "未達"}`;
+
+  // カレンダー
+  renderCalendar(monthKey, new Set(doneThisMonth), TODAY);
+
+  // モデルユーザーA
+  const aDone = isDone(MODEL_A_ID, TODAY);
+  const aTime = TODAY_TIME_BY_USER[MODEL_A_ID] || "";
+  modelAValue.textContent = aDone ? "達成です" : "未達です";
+  modelASub.textContent = aDone ? `記帳時刻：${aTime || "時刻未設定"}` : "今日はまだ押していません";
+
+  // 全体継続率（定義を2つ出します）
+  const metrics = calcRetentionMetrics(monthKey, TODAY);
+  retValue.textContent = `直近7日：${Math.round(metrics.active7dRate*100)}%`;
+  retSub.textContent = `今月平均：${Math.round(metrics.monthAvgRate*100)}%（延べ出席 / 延べ日数）`;
+
+  msg.textContent = note || "更新しましたです";
+}
+
+function renderCalendar(monthKey, doneSet, todayYmd){
+  // monthKey: "YYYY-MM"
+  const [y, m] = monthKey.split("-").map(Number);
+
+  // ヘッダ（曜日）
+  calendarEl.innerHTML = "";
+  const dows = ["日","月","火","水","木","金","土"];
+  dows.forEach(d=>{
+    const el = document.createElement("div");
+    el.className = "dow";
+    el.textContent = d;
+    calendarEl.appendChild(el);
+  });
+
+  // 6週固定（42マス）で高さを安定させます
+  const first = new Date(Date.UTC(y, m-1, 1));
+  const last = new Date(Date.UTC(y, m, 0));
+  const startDow = first.getUTCDay(); // 0=Sun
+  const totalDays = last.getUTCDate();
+  const cells = 42;
+
+  for(let i=0;i<cells;i++){
+    const dayNum = i - startDow + 1;
+    const cell = document.createElement("div");
+
+    if(dayNum < 1 || dayNum > totalDays){
+      cell.className = "day off";
+      cell.textContent = "";
+    }else{
+      const dateStr = `${y}-${String(m).padStart(2,"0")}-${String(dayNum).padStart(2,"0")}`;
+      cell.className = "day";
+      cell.textContent = String(dayNum);
+
+      if(doneSet.has(dateStr)) cell.classList.add("done");
+      if(dateStr === todayYmd) cell.classList.add("today");
+    }
+    calendarEl.appendChild(cell);
+  }
+}
+
+/* =========================
+   ロジック
+   ========================= */
+function getDoneDates(uid){
+  return DONE_BY_USER[uid] ? uniq(DONE_BY_USER[uid]) : [];
+}
+
+function isDone(uid, ymd){
+  return getDoneDates(uid).includes(ymd);
+}
+
+function toggleToday(uid){
+  const list = getDoneDates(uid);
+  const has = list.includes(TODAY);
+  const next = has ? list.filter(d => d !== TODAY) : list.concat([TODAY]);
+  DONE_BY_USER[uid] = uniq(next);
+
+  // 時刻（表示用）もそれっぽく
+  if (!has) {
+    TODAY_TIME_BY_USER[uid] = new Intl.DateTimeFormat("ja-JP", {
+      timeZone: "Asia/Tokyo",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }).format(new Date());
+  } else {
+    TODAY_TIME_BY_USER[uid] = "";
+  }
+}
+
+function calcStreak(uid, todayYmd){
+  const done = new Set(getDoneDates(uid));
+  let streak = 0;
+
+  // 今日から遡って連続達成数を数えます
+  let d = ymdToUTCDate(todayYmd);
+  for(;;){
+    const key = utcDateToYMD(d);
+    if(done.has(key)){
+      streak++;
+      d.setUTCDate(d.getUTCDate() - 1);
+    }else{
+      break;
+    }
+    // 無限ループ対策（ありえませんが念のため）
+    if(streak > 3660) break;
+  }
+  return streak;
+}
+
+function calcRetentionMetrics(monthKey, todayYmd){
+  const totalUsers = USERS.length;
+
+  // 直近7日アクティブ率：今日含む7日で1回でも達成したユーザー割合
+  const today = ymdToUTCDate(todayYmd);
+  const start = new Date(today.getTime());
+  start.setUTCDate(start.getUTCDate() - 6); // 7日間（今日含む）
+  const startYmd = utcDateToYMD(start);
+
+  let active7d = 0;
+  USERS.forEach(u=>{
+    const done = getDoneDates(u.id);
+    const any = done.some(d => d >= startYmd && d <= todayYmd);
+    if(any) active7d++;
+  });
+  const active7dRate = totalUsers ? active7d / totalUsers : 0;
+
+  // 今月平均：延べ出席 / (ユーザー数 * 今月経過日数)
+  const [y, m] = monthKey.split("-").map(Number);
+  const monthStart = new Date(Date.UTC(y, m-1, 1));
+  const todayUTC = ymdToUTCDate(todayYmd);
+  const daysElapsed = clamp(
+    Math.floor((todayUTC - monthStart) / 86400000) + 1,
+    1,
+    31
+  );
+
+  let totalAttend = 0;
+  USERS.forEach(u=>{
+    totalAttend += getDoneDates(u.id).filter(d => d.startsWith(monthKey)).length;
+  });
+  const denom = totalUsers * daysElapsed;
+  const monthAvgRate = denom ? (totalAttend / denom) : 0;
+
+  return { active7dRate, monthAvgRate, active7d, totalUsers, totalAttend, daysElapsed };
+}
+
+/* =========================
+   イベント
+   ========================= */
+document.getElementById("reloadBtn").addEventListener("click", ()=> refreshAll("手動更新しましたです"));
+sel.addEventListener("change", ()=> refreshAll("ユーザーを切り替えましたです"));
+
+document.getElementById("checkinBtn").addEventListener("click", ()=>{
+  toggleToday(sel.value);
+  const doneToday = isDone(sel.value, TODAY);
+  refreshAll(doneToday ? "記帳しましたです（モック）" : "取り消しましたです（モック）");
+});
+
+// 起動
+init();
+</script>
 </body>
 </html>
